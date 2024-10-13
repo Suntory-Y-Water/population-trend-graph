@@ -1,102 +1,49 @@
-DROP TABLE IF EXISTS m_prefecture CASCADE; 
+-- 市区町村マスタ
+DROP TABLE IF EXISTS m_municipality CASCADE;
 
-CREATE TABLE m_prefecture( 
-    pref_code VARCHAR (5) PRIMARY KEY
-    , pref_name VARCHAR (50) NOT NULL
-); 
+CREATE TABLE m_municipality (
+    municipality_code VARCHAR(6) PRIMARY KEY,
+    prefecture_code VARCHAR(2) NOT NULL,
+    prefecture_name VARCHAR(50) NOT NULL,
+    municipality_name VARCHAR(100) NOT NULL
+);
 
-COMMENT 
-    ON TABLE m_prefecture IS '都道府県マスタ'; 
+COMMENT ON TABLE m_municipality IS '市区町村マスタ';
+COMMENT ON COLUMN m_municipality.municipality_code IS '団体コード';
+COMMENT ON COLUMN m_municipality.prefecture_code IS '都道府県コード';
+COMMENT ON COLUMN m_municipality.prefecture_name IS '都道府県名';
+COMMENT ON COLUMN m_municipality.municipality_name IS '市区町村名';
 
-COMMENT 
-    ON COLUMN m_prefecture.pref_code IS '都道府県コード'; 
+-- 性別情報テーブル
+DROP TABLE IF EXISTS m_gender CASCADE;
 
-COMMENT 
-    ON COLUMN m_prefecture.pref_name IS '都道府県名'; 
+CREATE TABLE m_gender (
+    gender VARCHAR(10) PRIMARY KEY
+);
 
-DROP TABLE IF EXISTS m_city CASCADE; 
+INSERT INTO m_gender (gender) VALUES ('男'), ('女');
 
-CREATE TABLE m_city( 
-    city_code VARCHAR (10) PRIMARY KEY
-    , city_name VARCHAR (100) NOT NULL
-    , pref_code VARCHAR (5) NOT NULL
-    , FOREIGN KEY (pref_code) REFERENCES m_prefecture(pref_code)
-); 
+COMMENT ON TABLE m_gender IS '性別情報マスタ';
+COMMENT ON COLUMN m_gender.gender IS '性別';
 
-COMMENT 
-    ON TABLE m_city IS '市区町村マスタ'; 
+-- 人口情報マスタ
+DROP TABLE IF EXISTS m_population CASCADE;
 
-COMMENT 
-    ON COLUMN m_city.city_code IS '市区町村コード'; 
+CREATE TABLE m_population (
+    year INTEGER NOT NULL,
+    municipality_code VARCHAR(6) NOT NULL,
+    gender VARCHAR(10) NOT NULL,
+    young_population INTEGER NOT NULL,
+    working_age_population INTEGER NOT NULL,
+    elderly_population INTEGER NOT NULL,
+    PRIMARY KEY (year, municipality_code, gender),
+    FOREIGN KEY (municipality_code) REFERENCES m_municipality(municipality_code)
+);
 
-COMMENT 
-    ON COLUMN m_city.city_name IS '市区町村名'; 
-
-COMMENT 
-    ON COLUMN m_city.pref_code IS '都道府県コード'; 
-
-DROP TABLE IF EXISTS m_population_data CASCADE; 
-
-CREATE TABLE m_population_data( 
-    city_code VARCHAR (10) NOT NULL
-    , census_year INT NOT NULL
-    , total_population INT NOT NULL
-    , male_total_population INT NOT NULL
-    , female_total_population INT NOT NULL
-    , population_under_15 INT NOT NULL
-    , population_15_to_64 INT NOT NULL
-    , population_over_65 INT NOT NULL
-    , male_population_under_15 INT NOT NULL
-    , male_population_15_to_64 INT NOT NULL
-    , male_population_over_65 INT NOT NULL
-    , female_population_under_15 INT NOT NULL
-    , female_population_15_to_64 INT NOT NULL
-    , female_population_over_65 INT NOT NULL
-    , PRIMARY KEY (city_code, census_year)
-    , FOREIGN KEY (city_code) REFERENCES m_city(city_code)
-); 
-
-COMMENT 
-    ON TABLE m_population_data IS '人口動態マスタ'; 
-
-COMMENT 
-    ON COLUMN m_population_data.city_code IS '市区町村コード'; 
-
-COMMENT 
-    ON COLUMN m_population_data.census_year IS '調査年'; 
-
-COMMENT 
-    ON COLUMN m_population_data.total_population IS '総人口'; 
-
-COMMENT 
-    ON COLUMN m_population_data.male_total_population IS '男性総人口'; 
-
-COMMENT 
-    ON COLUMN m_population_data.female_total_population IS '女性総人口'; 
-
-COMMENT 
-    ON COLUMN m_population_data.population_under_15 IS '15歳未満人口'; 
-
-COMMENT 
-    ON COLUMN m_population_data.population_15_to_64 IS '15～64歳人口'; 
-
-COMMENT 
-    ON COLUMN m_population_data.population_over_65 IS '65歳以上人口'; 
-
-COMMENT 
-    ON COLUMN m_population_data.male_population_under_15 IS '男性15歳未満人口'; 
-
-COMMENT 
-    ON COLUMN m_population_data.male_population_15_to_64 IS '男性15～64歳人口'; 
-
-COMMENT 
-    ON COLUMN m_population_data.male_population_over_65 IS '男性65歳以上人口'; 
-
-COMMENT 
-    ON COLUMN m_population_data.female_population_under_15 IS '女性15歳未満人口'; 
-
-COMMENT 
-    ON COLUMN m_population_data.female_population_15_to_64 IS '女性15～64歳人口'; 
-
-COMMENT 
-    ON COLUMN m_population_data.female_population_over_65 IS '女性65歳以上人口';
+COMMENT ON TABLE m_population IS '人口情報マスタ';
+COMMENT ON COLUMN m_population.year IS '調査年';
+COMMENT ON COLUMN m_population.municipality_code IS '団体コード';
+COMMENT ON COLUMN m_population.gender IS '性別';
+COMMENT ON COLUMN m_population.young_population IS '年少人口';
+COMMENT ON COLUMN m_population.working_age_population IS '生産年齢人口';
+COMMENT ON COLUMN m_population.elderly_population IS '老年人口';
