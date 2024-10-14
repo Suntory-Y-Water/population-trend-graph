@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Noto_Sans_JP } from 'next/font/google';
 import type React from 'react';
 import './globals.css';
+import Footer from './Footer';
+import Header from './Header';
 
-const inter = Inter({ subsets: ['latin'] });
+const notoSansJp = Noto_Sans_JP({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -16,8 +18,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
-      <body className={inter.className}>{children}</body>
+    <html lang='ja'>
+      <body className={notoSansJp.className}>
+        <Header />
+        <main className='bg-gray-100 text-gray-800 leading-relaxed p-5 mb-16 min-h-screen'>
+          {children}
+        </main>
+        <Footer />
+      </body>
     </html>
   );
 }
