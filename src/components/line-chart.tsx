@@ -9,7 +9,15 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 import { populations } from '@/db';
-import type { ChartParams, Municipality, MunicipalityName, Population } from '@/types';
+import type {
+  ChartParams,
+  Municipality,
+  MunicipalityName,
+  Population,
+  SelectPopulationItems,
+} from '@/types';
+import { useState } from 'react';
+import SelectPopulation from './select-population';
 
 export const description = 'A multiple line chart';
 
@@ -21,7 +29,34 @@ const colorPalette = [
   'hsl(var(--chart-5))',
 ];
 
-function aggregateByYear(municipalities: Municipality[], populations: Population[]) {
+const selectPopulationParams: SelectPopulationItems = {
+  items: [
+    {
+      value: 'totalPopulation',
+      label: '総人口',
+    },
+    {
+      value: 'youngPopulation',
+      label: '幼年人口',
+    },
+    {
+      value: 'working_population',
+      label: '生産年齢人口',
+    },
+    {
+      value: 'elderlyPopulation',
+      label: '老年人口',
+    },
+  ],
+  placeholder: '人口データを選択',
+  selectLabel: '人口データ',
+};
+
+function aggregateByYear(
+  municipalities: Municipality[],
+  populations: Population[],
+  selectedPopulation: string,
+) {
   const result: ChartParams[] = [];
 
   for (const population of populations) {
@@ -36,11 +71,27 @@ function aggregateByYear(municipalities: Municipality[], populations: Population
 
     // 対象の市区町村名を取得して人口データを追加
     const municipality = municipalities.find(
-      (muni) => muni.municipality_code === population.municipality_code,
+      (muni) => muni.municipalityCode === population.municipalityCode,
     );
 
     if (municipality) {
-      yearEntry[municipality.municipality_name] = population.young_population;
+      switch (selectedPopulation) {
+        case 'totalPopulation':
+          yearEntry[municipality.municipalityName] =
+            population.youngPopulation +
+            population.workingPopulation +
+            population.elderlyPopulation;
+          break;
+        case 'youngPopulation':
+          yearEntry[municipality.municipalityName] = population.youngPopulation;
+          break;
+        case 'working_population':
+          yearEntry[municipality.municipalityName] = population.workingPopulation;
+          break;
+        case 'elderlyPopulation':
+          yearEntry[municipality.municipalityName] = population.elderlyPopulation;
+          break;
+      }
     }
   }
 
@@ -52,8 +103,7 @@ function aggregateByYear(municipalities: Municipality[], populations: Population
 
 function createChartConfig(selectedMunicipalities: MunicipalityName[]): ChartConfig {
   return selectedMunicipalities.reduce((config, municipalityName, index) => {
-    // 5色を循環させる
-    const color = colorPalette[index % colorPalette.length];
+    const color = colorPalette[index];
     config[municipalityName] = {
       label: municipalityName,
       color: color,
@@ -81,9 +131,16 @@ type Props = {
 };
 
 export function ChartComponents({ params }: Props) {
-  const chartParams: ChartParams[] = aggregateByYear(params, populations);
+  const [selectedValue, setSelectedValue] = useState<string>('');
+
+  const chartParams: ChartParams[] = aggregateByYear(params, populations, selectedValue);
   const selectedMunicipalities = extractMunicipalityNames(chartParams);
   const chartParamsConfig = createChartConfig(selectedMunicipalities);
+
+  // 子コンポーネントで選択された値を受け取るコールバック関数
+  function handleSelectChange(value: string) {
+    setSelectedValue(value);
+  }
 
   return (
     <Card>
@@ -91,6 +148,7 @@ export function ChartComponents({ params }: Props) {
         <CardTitle>人口推移グラフ</CardTitle>
       </CardHeader>
       <CardContent>
+        <SelectPopulation params={selectPopulationParams} onChange={handleSelectChange} />
         <ChartContainer config={chartParamsConfig}>
           <LineChart
             accessibilityLayer

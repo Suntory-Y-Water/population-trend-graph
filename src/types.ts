@@ -1,7 +1,6 @@
 import type { municipalities, populations } from './db';
 
-// municipality_nameだけを抽出したリテラル型
-export type MunicipalityName = (typeof municipalities)[number]['municipality_name'];
+export type MunicipalityName = (typeof municipalities)[number]['municipalityName'];
 
 export type Municipality = (typeof municipalities)[number];
 
@@ -24,4 +23,13 @@ export type ConmoboxProps = {
 type ConmoboxItem = {
   value: string;
   label: string;
+};
+
+export type SelectPopulationItems = {
+  items: {
+    value: string;
+    label: string;
+  }[];
+  placeholder: string;
+  selectLabel: string;
 };

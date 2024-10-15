@@ -25,8 +25,8 @@ export default function ChartData({ params }: Props) {
   function handleCheckboxChange(municipality: Municipality) {
     setSelectedMunicipalities((prevSelected) => {
       // 既に選択されている場合は削除、されていない場合は追加
-      if (prevSelected.some((m) => m.municipality_code === municipality.municipality_code)) {
-        return prevSelected.filter((m) => m.municipality_code !== municipality.municipality_code);
+      if (prevSelected.some((m) => m.municipalityCode === municipality.municipalityCode)) {
+        return prevSelected.filter((m) => m.municipalityCode !== municipality.municipalityCode);
       }
       return [...prevSelected, municipality];
     });
@@ -37,28 +37,28 @@ export default function ChartData({ params }: Props) {
       <div className='grid grid-cols-5 gap-4'>
         {params.map((municipality) => {
           const isChecked = selectedMunicipalities.some(
-            (m) => m.municipality_code === municipality.municipality_code,
+            (m) => m.municipalityCode === municipality.municipalityCode,
           );
           return (
             <div
-              key={municipality.municipality_code}
+              key={municipality.municipalityCode}
               className='border flex flex-1 relative flex-row items-start space-x-3 space-y-0 rounded-md p-2'
             >
               <Checkbox
-                id={municipality.municipality_code}
+                id={municipality.municipalityCode}
                 checked={isChecked}
                 onCheckedChange={() => handleCheckboxChange(municipality)}
               />
               <div className='space-y-1 leading-none'>
-                <Label htmlFor={municipality.municipality_code}>
-                  {municipality.municipality_name}
+                <Label htmlFor={municipality.municipalityCode}>
+                  {municipality.municipalityName}
                 </Label>
               </div>
             </div>
           );
         })}
       </div>
-      <ChartComponents params={selectedMunicipalities} />
+      {selectedMunicipalities.length > 0 && <ChartComponents params={selectedMunicipalities} />}
     </div>
   );
 }
