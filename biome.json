@@ -7,13 +7,14 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": []
+    "ignore": [],
+    "maxSize": 4194304
   },
   "formatter": {
     "attributePosition": "auto",
     "indentStyle": "space",
     "indentWidth": 2,
-    "lineWidth": 120
+    "lineWidth": 100
   },
   "organizeImports": {
     "enabled": true
