@@ -25,13 +25,11 @@ export default function SelectPopulation({ params, onChange }: Props) {
       <SelectContent>
         <SelectGroup>
           <SelectLabel>{params.selectLabel}</SelectLabel>
-          {params.items.map((item) => {
-            return (
-              <SelectItem key={item.value} value={item.value}>
-                {item.label}
-              </SelectItem>
-            );
-          })}
+          {params.items.map((item) => (
+            <SelectItem key={item.value} value={item.value}>
+              {item.label}
+            </SelectItem>
+          ))}
         </SelectGroup>
       </SelectContent>
     </Select>

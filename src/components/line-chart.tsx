@@ -162,18 +162,16 @@ export function ChartComponents({ params }: Props) {
             <XAxis dataKey='year' tickLine={false} axisLine={false} tickMargin={4} />
             <YAxis tickLine={false} axisLine={false} tickMargin={4} />
             <ChartTooltip cursor={false} content={<ChartTooltipContent labelKey={'none'} />} />
-            {selectedMunicipalities.map((municipalityName, index) => {
-              return (
-                <Line
-                  key={municipalityName}
-                  dataKey={municipalityName}
-                  type='monotone'
-                  stroke={colorPalette[index % colorPalette.length]}
-                  strokeWidth={2}
-                  dot={false}
-                />
-              );
-            })}
+            {selectedMunicipalities.map((municipalityName, index) => (
+              <Line
+                key={municipalityName}
+                dataKey={municipalityName}
+                type='monotone'
+                stroke={colorPalette[index % colorPalette.length]}
+                strokeWidth={2}
+                dot={false}
+              />
+            ))}
           </LineChart>
         </ChartContainer>
       </CardContent>

@@ -22,12 +22,12 @@ export default function Home({ searchParams }: Props) {
     notFoundMessage: '都道府県が見つかりません',
   };
 
-  const selectedMunicipalities: Municipality[] = municipalities.filter((municipality) => {
-    return municipality.prefectureName === query;
-  });
+  const selectedMunicipalities: Municipality[] = municipalities.filter(
+    (municipality) => municipality.prefectureName === query,
+  );
 
   return (
-    <div className='w-full px-72 md:px-32 py-8'>
+    <div className='w-full px-4 sm:px-8 md:px-16 lg:px-32 xl:px-72 py-8'>
       <ComboboxComponents params={prefecturesCombobox} />
       <Card>
         <CardHeader>
