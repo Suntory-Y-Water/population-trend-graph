@@ -1,3 +1,5 @@
+export const runtime = 'edge';
+
 import ChartData from '@/components/chart-data';
 import SelectPrefecture from '@/components/select-prefecture';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
