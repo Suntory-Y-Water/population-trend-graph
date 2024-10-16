@@ -1,8 +1,8 @@
 import ChartData from '@/components/chart-data';
+import SelectPrefecture from '@/components/select-prefecture';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ComboboxComponents } from '@/components/ui/combobox';
 import { municipalities, prefecture } from '@/db';
-import type { ConmoboxProps, Municipality } from '@/types';
+import type { Municipality, SelectItems } from '@/types';
 
 type Props = {
   searchParams?: {
@@ -12,14 +12,13 @@ type Props = {
 
 export default function Home({ searchParams }: Props) {
   const query = searchParams?.prefecture || '';
-  const prefecturesCombobox: ConmoboxProps = {
+  const selectPrefectureParams: SelectItems = {
     items: prefecture.map((pref) => ({
       value: pref.prefectureName,
       label: pref.prefectureName,
     })),
-    buttonLabel: '都道府県を選択...',
-    placeholder: '東京都...',
-    notFoundMessage: '都道府県が見つかりません',
+    placeholder: '都道府県を選択...',
+    selectLabel: '都道府県',
   };
 
   const selectedMunicipalities: Municipality[] = municipalities.filter(
@@ -27,13 +26,15 @@ export default function Home({ searchParams }: Props) {
   );
 
   return (
-    <div className='w-full px-4 sm:px-8 md:px-16 lg:px-32 xl:px-72 py-8'>
-      <ComboboxComponents params={prefecturesCombobox} />
+    <div className='w-full px-2 sm:px-8 md:px-16 lg:px-32 xl:px-72 py-8'>
       <Card>
         <CardHeader>
-          <CardTitle>比較したい市区町村を選択してください</CardTitle>
+          <CardTitle>比較したい都道府県と市区町村を選択</CardTitle>
         </CardHeader>
         <CardContent>
+          <div className='pb-4'>
+            <SelectPrefecture params={selectPrefectureParams} />
+          </div>
           <ChartData params={selectedMunicipalities} />
         </CardContent>
       </Card>

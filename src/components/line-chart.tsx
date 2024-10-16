@@ -1,7 +1,7 @@
 'use client';
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {} from '@/components/ui/card';
 import {
   type ChartConfig,
   ChartContainer,
@@ -9,13 +9,7 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 import { populations } from '@/db';
-import type {
-  ChartParams,
-  Municipality,
-  MunicipalityName,
-  Population,
-  SelectPopulationItems,
-} from '@/types';
+import type { ChartParams, Municipality, MunicipalityName, Population, SelectItems } from '@/types';
 import { useState } from 'react';
 import SelectPopulation from './select-population';
 
@@ -29,7 +23,7 @@ const colorPalette = [
   'hsl(var(--chart-5))',
 ];
 
-const selectPopulationParams: SelectPopulationItems = {
+const selectPopulationParams: SelectItems = {
   items: [
     {
       value: 'totalPopulation',
@@ -40,7 +34,7 @@ const selectPopulationParams: SelectPopulationItems = {
       label: '幼年人口',
     },
     {
-      value: 'working_population',
+      value: 'workingPopulation',
       label: '生産年齢人口',
     },
     {
@@ -48,7 +42,7 @@ const selectPopulationParams: SelectPopulationItems = {
       label: '老年人口',
     },
   ],
-  placeholder: '人口データを選択',
+  placeholder: '総人口',
   selectLabel: '人口データ',
 };
 
@@ -85,7 +79,7 @@ function aggregateByYear(
         case 'youngPopulation':
           yearEntry[municipality.municipalityName] = population.youngPopulation;
           break;
-        case 'working_population':
+        case 'workingPopulation':
           yearEntry[municipality.municipalityName] = population.workingPopulation;
           break;
         case 'elderlyPopulation':
@@ -131,7 +125,7 @@ type Props = {
 };
 
 export function ChartComponents({ params }: Props) {
-  const [selectedValue, setSelectedValue] = useState<string>('');
+  const [selectedValue, setSelectedValue] = useState<string>('totalPopulation');
 
   const chartParams: ChartParams[] = aggregateByYear(params, populations, selectedValue);
   const selectedMunicipalities = extractMunicipalityNames(chartParams);
@@ -143,38 +137,45 @@ export function ChartComponents({ params }: Props) {
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>人口推移グラフ</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <SelectPopulation params={selectPopulationParams} onChange={handleSelectChange} />
-        <ChartContainer config={chartParamsConfig}>
-          <LineChart
-            accessibilityLayer
-            data={chartParams}
-            margin={{
-              left: 12,
-              right: 12,
-            }}
-          >
-            <CartesianGrid vertical={true} />
-            <XAxis dataKey='year' tickLine={false} axisLine={false} tickMargin={4} />
-            <YAxis tickLine={false} axisLine={false} tickMargin={4} />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent labelKey={'none'} />} />
-            {selectedMunicipalities.map((municipalityName, index) => (
-              <Line
-                key={municipalityName}
-                dataKey={municipalityName}
-                type='monotone'
-                stroke={colorPalette[index % colorPalette.length]}
-                strokeWidth={2}
-                dot={false}
-              />
-            ))}
-          </LineChart>
-        </ChartContainer>
-      </CardContent>
-    </Card>
+    <div>
+      <h2 className='py-4 text-xl font-semibold leading-none tracking-tight'>人口推移グラフ</h2>
+      <SelectPopulation params={selectPopulationParams} onChange={handleSelectChange} />
+      <ChartContainer config={chartParamsConfig} className='w-full h-[500px] md:h-[500px] py-2'>
+        <LineChart
+          accessibilityLayer
+          data={chartParams}
+          margin={{
+            top: 12,
+            left: 12,
+            right: 12,
+          }}
+        >
+          <CartesianGrid vertical={true} />
+          <XAxis dataKey='year' tickLine={false} axisLine={false} tickMargin={4} />
+          <YAxis
+            width={40}
+            tick={{ fontSize: 10 }}
+            tickLine={false}
+            axisLine={false}
+            tickMargin={4}
+          />
+          <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent indicator='line' labelKey={'none'} />}
+          />
+          {selectedMunicipalities.map((municipalityName, index) => (
+            <Line
+              key={municipalityName}
+              dataKey={municipalityName}
+              type='natural'
+              stroke={colorPalette[index % colorPalette.length]}
+              strokeWidth={2}
+              dot={{ fill: colorPalette[index % colorPalette.length] }}
+              activeDot={{ r: 6 }}
+            />
+          ))}
+        </LineChart>
+      </ChartContainer>
+    </div>
   );
 }

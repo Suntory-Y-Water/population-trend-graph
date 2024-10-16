@@ -13,19 +13,7 @@ export type ChartParams = {
   [key in MunicipalityName]?: number; // 各市区町村の人口データは任意で数値
 };
 
-export type ConmoboxProps = {
-  items: ConmoboxItem[];
-  buttonLabel: string;
-  placeholder: string;
-  notFoundMessage: string;
-};
-
-type ConmoboxItem = {
-  value: string;
-  label: string;
-};
-
-export type SelectPopulationItems = {
+export type SelectItems = {
   items: {
     value: string;
     label: string;
