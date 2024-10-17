@@ -51,6 +51,7 @@ export default function ChartData({ params }: Props) {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     setSelectedMunicipalities([]);
+    setSearchMunicipalities('');
   }, [searchParams.get('prefecture')]);
 
   // チェックボックスが変更されたときの処理
