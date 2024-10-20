@@ -1,7 +1,6 @@
 export const runtime = 'edge';
-
-import ChartData from '@/components/chart-data';
-import SelectPrefecture from '@/components/select-prefecture';
+import MunicipalityDashboard from '@/components/feature/MunicipalityDashboard';
+import SelectPrefecture from '@/components/feature/SelectPrefecture';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { municipalities, prefecture } from '@/db';
 import type { Municipality, SelectItems } from '@/types';
@@ -37,7 +36,8 @@ export default function Home({ searchParams }: Props) {
           <div className='pb-4'>
             <SelectPrefecture params={selectPrefectureParams} />
           </div>
-          <ChartData params={selectedMunicipalities} />
+          {/* <ChartData params={selectedMunicipalities} /> */}
+          <MunicipalityDashboard params={selectedMunicipalities} />
         </CardContent>
       </Card>
     </div>
