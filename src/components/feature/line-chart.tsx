@@ -1,4 +1,3 @@
-'use client';
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
 
 import {} from '@/components/ui/card';
@@ -11,7 +10,7 @@ import {
 import { populations } from '@/db';
 import type { ChartParams, Municipality, MunicipalityName, Population, SelectItems } from '@/types';
 import { useState } from 'react';
-import SelectPopulation from './select-population';
+import SelectPopulation from './SelectPopulation';
 
 export const description = 'A multiple line chart';
 
