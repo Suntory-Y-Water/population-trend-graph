@@ -36,7 +36,6 @@ export default function Home({ searchParams }: Props) {
           <div className='pb-4'>
             <SelectPrefecture params={selectPrefectureParams} />
           </div>
-          {/* <ChartData params={selectedMunicipalities} /> */}
           <MunicipalityDashboard params={selectedMunicipalities} />
         </CardContent>
       </Card>
