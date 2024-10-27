@@ -3,7 +3,7 @@ import type { Municipality } from '@/types';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 describe('Checklist コンポーネント', () => {
-  const mockOnChange = jest.fn();
+  const mockOnChange = vi.fn();
 
   const municipalities: Municipality[] = [
     {

@@ -1,8 +1,8 @@
 'use client';
 import type { Municipality } from '@/types';
 import { useState } from 'react';
+import { ChartComponents } from './ChartComponents';
 import MunicipalityChecklist from './MunicipalityChecklist';
-import { ChartComponents } from './line-chart';
 
 type Props = {
   params: Municipality[];

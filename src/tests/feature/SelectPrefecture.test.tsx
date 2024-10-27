@@ -1,16 +1,17 @@
 import SelectPrefecture from '@/components/feature/SelectPrefecture';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import type { Mock } from 'vitest';
 
 // mock
-jest.mock('next/navigation', () => ({
-  useRouter: jest.fn(),
-  useSearchParams: jest.fn(),
-  usePathname: jest.fn(),
+vi.mock('next/navigation', () => ({
+  useRouter: vi.fn(),
+  useSearchParams: vi.fn(),
+  usePathname: vi.fn(),
 }));
 
 describe('SelectPrefecture コンポーネント', () => {
-  const mockReplace = jest.fn();
+  const mockReplace = vi.fn();
 
   const selectItems = {
     items: [
@@ -25,9 +26,9 @@ describe('SelectPrefecture コンポーネント', () => {
   beforeEach(() => {
     // モック関数をリセット
     mockReplace.mockClear();
-    (useRouter as jest.Mock).mockReturnValue({ replace: mockReplace });
-    (useSearchParams as jest.Mock).mockReturnValue(new URLSearchParams());
-    (usePathname as jest.Mock).mockReturnValue('/');
+    (useRouter as Mock).mockReturnValue({ replace: mockReplace });
+    (useSearchParams as Mock).mockReturnValue(new URLSearchParams());
+    (usePathname as Mock).mockReturnValue('/');
   });
 
   it('初期状態でプレースホルダーが表示されている', () => {
