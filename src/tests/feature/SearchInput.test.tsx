@@ -2,7 +2,7 @@ import SearchInput from '@/components/feature/SearchInput';
 import { render, screen } from '@testing-library/react';
 
 describe('SearchInput コンポーネント', () => {
-  const mockOnChange = jest.fn();
+  const mockOnChange = vi.fn();
 
   const placeholderText = '市区町村を検索...';
 

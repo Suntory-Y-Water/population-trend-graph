@@ -144,7 +144,7 @@ export function ChartComponents({ params }: Props) {
           accessibilityLayer
           data={chartParams}
           margin={{
-            top: 12,
+            top: 36,
             left: 24,
             right: 36,
           }}
@@ -152,18 +152,21 @@ export function ChartComponents({ params }: Props) {
           <CartesianGrid vertical={false} />
           <XAxis
             dataKey='year'
+            tick={{ fontSize: 12, style: { fill: '#333' } }}
             tickLine={false}
             axisLine={false}
             tickMargin={4}
-            label={{ value: '(年)', position: 'insideRight', offset: -35 }}
+            label={{ value: '(年)', position: 'insideRight', offset: -35, style: { fill: '#333' } }}
             padding={{ left: 20, right: 20 }}
           />
           <YAxis
             width={40}
-            tick={{ fontSize: 10 }}
+            tick={{ fontSize: 12, style: { fill: '#333' } }}
             tickLine={false}
             axisLine={false}
             tickMargin={4}
+            label={{ value: '(人)', position: 'top', offset: 15, style: { fill: '#333' } }}
+            tickFormatter={(tick: number) => tick.toLocaleString()}
             tickCount={6}
           />
           <ChartTooltip

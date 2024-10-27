@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 
 describe('SelectPopulation コンポーネント', () => {
   // mock
-  const mockOnChange = jest.fn();
+  const mockOnChange = vi.fn();
 
   const selectItems = {
     items: [
