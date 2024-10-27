@@ -1,4 +1,3 @@
-'use client';
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
 
 import {} from '@/components/ui/card';
@@ -11,7 +10,7 @@ import {
 import { populations } from '@/db';
 import type { ChartParams, Municipality, MunicipalityName, Population, SelectItems } from '@/types';
 import { useState } from 'react';
-import SelectPopulation from './select-population';
+import SelectPopulation from './SelectPopulation';
 
 export const description = 'A multiple line chart';
 
@@ -137,7 +136,7 @@ export function ChartComponents({ params }: Props) {
   }
 
   return (
-    <div>
+    <>
       <h2 className='py-4 text-xl font-semibold leading-none tracking-tight'>人口推移グラフ</h2>
       <SelectPopulation params={selectPopulationParams} onChange={handleSelectChange} />
       <ChartContainer config={chartParamsConfig} className='w-full h-[500px] md:h-[500px] py-2'>
@@ -146,18 +145,26 @@ export function ChartComponents({ params }: Props) {
           data={chartParams}
           margin={{
             top: 12,
-            left: 12,
-            right: 12,
+            left: 24,
+            right: 36,
           }}
         >
-          <CartesianGrid vertical={true} />
-          <XAxis dataKey='year' tickLine={false} axisLine={false} tickMargin={4} />
+          <CartesianGrid vertical={false} />
+          <XAxis
+            dataKey='year'
+            tickLine={false}
+            axisLine={false}
+            tickMargin={4}
+            label={{ value: '(年)', position: 'insideRight', offset: -35 }}
+            padding={{ left: 20, right: 20 }}
+          />
           <YAxis
             width={40}
             tick={{ fontSize: 10 }}
             tickLine={false}
             axisLine={false}
             tickMargin={4}
+            tickCount={6}
           />
           <ChartTooltip
             cursor={false}
@@ -176,6 +183,6 @@ export function ChartComponents({ params }: Props) {
           ))}
         </LineChart>
       </ChartContainer>
-    </div>
+    </>
   );
 }
