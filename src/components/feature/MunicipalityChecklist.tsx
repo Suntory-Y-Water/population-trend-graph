@@ -53,7 +53,7 @@ export default function MunicipalityChecklist({ params, onChange }: Props) {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    // 市区町村が変更されたら選択状態をリセット
+    // 都道府県が変わったら選択状態をリセット
     setSelectedMunicipalities([]);
     setSearchMunicipalities('');
   }, [searchParams.get('prefecture')]);
@@ -75,7 +75,11 @@ export default function MunicipalityChecklist({ params, onChange }: Props) {
         placeholder='市区町村を検索...'
       />
       <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4'>
-        <Checklist params={displayedMunicipalities} onChange={handleCheckboxChange} />
+        <Checklist
+          params={displayedMunicipalities}
+          selectedList={selectedMunicipalities}
+          onChange={handleCheckboxChange}
+        />
       </div>
       {showMore && (
         <Button variant='default' className='mt-4 w-full' onClick={handleShowMore}>
