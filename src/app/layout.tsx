@@ -15,9 +15,12 @@ export const metadata: Metadata = {
     'お住まいの地域の総人口、年少人口、生産年齢人口、老年人口など幅広い人口データをグラフで比較・閲覧できるウェブサービスです。',
   openGraph: {
     title: '人口変動ナビ',
+    url: 'https://population-trend-graph.pages.dev/',
+    type: 'website',
     description:
       'お住まいの地域の総人口、年少人口、生産年齢人口、老年人口など幅広い人口データをグラフで比較・閲覧できるウェブサービスです。',
     images: '/opengraph-image.png',
+    siteName: '人口変動ナビ',
   },
   twitter: {
     title: '人口変動ナビ',

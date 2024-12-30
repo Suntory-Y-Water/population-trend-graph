@@ -4,13 +4,17 @@ import type { Municipality } from '@/types';
 
 type Props = {
   params: Municipality[];
+  selectedList: Municipality[]; // 既に選択されている市区町村の一覧
   onChange: (values: Municipality) => void; // 選択された市区町村を親に返すコールバック
 };
 
-export default function Checklist({ params, onChange }: Props) {
+export default function Checklist({ params, selectedList, onChange }: Props) {
   return (
     <>
       {params.map((municipality) => {
+        const isSelected = selectedList.some(
+          (m) => m.municipalityCode === municipality.municipalityCode,
+        );
         return (
           <div
             key={municipality.municipalityCode}
@@ -18,6 +22,10 @@ export default function Checklist({ params, onChange }: Props) {
           >
             <Checkbox
               id={municipality.municipalityCode}
+              /**
+               * 親からもらった selectedListに含まれているかどうかでチェック状態を制御する
+               */
+              checked={isSelected}
               onCheckedChange={() => onChange(municipality)}
             />
             <div className='space-y-1 leading-none'>

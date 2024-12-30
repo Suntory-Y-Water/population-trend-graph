@@ -31,7 +31,9 @@ describe('Checklist コンポーネント', () => {
   });
 
   it('市区町村のリストが正しく表示される', () => {
-    render(<Checklist params={municipalities} onChange={mockOnChange} />);
+    render(
+      <Checklist params={municipalities} selectedList={municipalities} onChange={mockOnChange} />,
+    );
 
     // 各市区町村が表示されているか確認
     expect(screen.getByLabelText('函館市')).toBeInTheDocument();
@@ -40,7 +42,9 @@ describe('Checklist コンポーネント', () => {
   });
 
   it('チェックボックスの選択が反映される', () => {
-    render(<Checklist params={municipalities} onChange={mockOnChange} />);
+    render(
+      <Checklist params={municipalities} selectedList={municipalities} onChange={mockOnChange} />,
+    );
 
     const checkbox = screen.getByLabelText('函館市');
 
@@ -53,7 +57,9 @@ describe('Checklist コンポーネント', () => {
   });
 
   it('選択状態がトグルされる', () => {
-    render(<Checklist params={municipalities} onChange={mockOnChange} />);
+    render(
+      <Checklist params={municipalities} selectedList={municipalities} onChange={mockOnChange} />,
+    );
 
     const checkbox = screen.getByLabelText('函館市');
 
